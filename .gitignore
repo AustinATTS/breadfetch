@@ -1,2 +1,8 @@
 # IDE files
 .idea/
+
+# Object files
+*.o
+
+# Executable
+breadfetch
