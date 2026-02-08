@@ -2,7 +2,6 @@
 #define DISPLAY_HEADER
 
 #include <string>
-#include <vector>
 
 namespace breadfetch {
     class Display {
