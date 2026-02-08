@@ -114,7 +114,7 @@ namespace breadfetch {
         struct sysinfo info;
         if (sysinfo(&info) == 0) {
             unsigned long totalMB = info.totalram / 1024 / 1024;
-            unsigned long usedMB = (info.totalram - info.freeram - info.bufferram - info.sharedram) / 1024 / 1024;
+            unsigned long usedMB = (info.totalram - info.freeram - info.bufferram) / 1024 / 1024;
 
             std::stringstream ss;
             ss << usedMB << "MB / " << totalMB << "MB";
