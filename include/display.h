@@ -1,5 +1,5 @@
 #pragma once
-#define DISPLAY_HEIGHT
+#define DISPLAY_HEADER
 
 #include <string>
 #include <vector>
