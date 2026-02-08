@@ -1,3 +1,6 @@
+// breadfetch - A system fetch tool
+// C++ implementation (Carbon interop version in main.carbon)
+
 #include "system_info.h"
 #include "display.h"
 
@@ -5,6 +8,7 @@ int main ( ) {
     breadfetch::Display::PrintBanner();
     breadfetch::Display::PrintSeparator();
 
+    // Gather and display system information
     std::string username = breadfetch::SystemInfo::GetUsername();
     std::string hostname = breadfetch::SystemInfo::GetHostname();
     std::string userHost = username + "@" + hostname;
