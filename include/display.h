@@ -7,9 +7,9 @@
 namespace breadfetch {
     class Display {
     public:
-        static void PrintBanner ();
+        static void PrintBanner ( );
         static void PrintInfo (const std::string& label, const std::string& value);
-        static void PrintSeperator ();
+        static void PrintSeparator ( );
 
     private:
         static const char* RESET;
