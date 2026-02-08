@@ -1,4 +1,5 @@
 #!/bin/bash
+# Uninstallation script for breadfetch
 
 set -e
 
@@ -12,6 +13,7 @@ USER_INSTALL="$HOME/.local/bin/breadfetch"
 
 removed=false
 
+# Check and remove from system directory
 if [ -f "$SYSTEM_INSTALL" ]; then
     if [ "$EUID" -eq 0 ]; then
         echo "Removing from system directory..."
@@ -19,10 +21,11 @@ if [ -f "$SYSTEM_INSTALL" ]; then
         removed=true
     else
         echo "System installation found at $SYSTEM_INSTALL"
-        echo "Run with sudo to remove: sudo $0"
+        echo "  Run with sudo to remove: sudo $0"
     fi
 fi
 
+# Check and remove from user directory
 if [ -f "$USER_INSTALL" ]; then
     echo "Removing from user directory..."
     rm -f "$USER_INSTALL"
