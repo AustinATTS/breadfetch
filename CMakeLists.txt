@@ -10,9 +10,9 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Source files
 set(SOURCES
-    src/main.cpp
-    src/system_info.cpp
-    src/display.cpp
+    src/main.cc
+    src/system_info.cc
+    src/display.cc
 )
 
 # Create executable
