@@ -32,22 +32,32 @@ namespace breadfetch {
     const char* Display::BWHITE = "\033[47m";
     const char* Display::BDEFAULT = "\033[49m";
 
-    void Display::PrintBanner ( ) {
-        std::cout << BOLD << YELLOW << R"(
-    ____  ____  _________    ____  __________________________  __
-   / __ )/ __ \/ ____/   |  / __ \/ ____/ ____/_  __/ ____/ / / /
-  / __  / /_/ / __/ / /| | / / / / /_  / __/   / / / /   / /_/ /
- / /_/ / _, _/ /___/ ___ |/ /_/ / __/ / /___  / / / /___/ __  /
-/_____/_/ |_/_____/_/  |_/_____/_/   /_____/ /_/  \____/_/ /_/
-)" << RESET << std::endl;
+    void Display::PrintBanner (const Config& config) {
+        const auto& asciiArt = config.GetAsciiArt();
+        const auto& colours = config.GetColours();
+
+        std::cout << colours.bold << asciiArt.colour;
+        for (const auto& line : asciiArt.lines) {
+            std::cout << line << std::endl;
+        }
+        std::cout << colours.reset << std::endl;
     }
 
-    void Display::PrintInfo (const std::string& label, const std::string& value) {
-        std::cout << BOLD << CYAN << std::setw(15) << std::left << label << RESET
+    void Display::PrintInfo (const std::string& label, const std::string& value, const Config& config) {
+        const auto& colours = config.GetColours();
+        std::cout << colours.bold << colours.label << std::setw(15) << std::left << label << colours.reset
                   << ": " << value << std::endl;
     }
 
-    void Display::PrintSeparator ( ) {
-        std::cout << BOLD << BLUE << "─────────────────────────────────────────────" << RESET << std::endl;
+    void Display::PrintSeparator (const Config& config) {
+        const auto& colours = config.GetColours();
+        int width = config.GetSeparatorWidth();
+        std::string sepChar = config.GetSeparatorChar();
+
+        std::cout << colours.bold << colours.separator;
+        for (int i = 0; i < width; i++) {
+            std::cout << sepChar;
+        }
+        std::cout << colours.reset << std::endl;
     }
 } // namespace breadfetch
