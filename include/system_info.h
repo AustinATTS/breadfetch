@@ -1,5 +1,4 @@
 #pragma once
-#define SYSTEM_INFO_HEADER
 
 #include <string>
 
@@ -17,8 +16,8 @@ namespace breadfetch {
 
             static std::string GetCPU ( );
             static std::string GetGPU ( );
-            static std::string GetMemory ( );
-            static std::string GetSwap ( );
+            static std::string GetMemory (const std::string& unit = "MB");
+            static std::string GetSwap (const std::string& unit = "MB");
 
             static std::string GetShell ( );
             static std::string GetTerminal ( );
