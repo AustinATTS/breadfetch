@@ -1,0 +1,7 @@
+module(
+    name = "breadfetch",
+    version = "0.1.0",
+)
+
+# Pull in standard Bazel C++ rules
+bazel_dep(name = "rules_cc", version = "0.1.1")
