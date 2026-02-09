@@ -13,6 +13,7 @@ set(SOURCES
     src/main.cc
     src/system_info.cc
     src/display.cc
+    src/info/*.cc
 )
 
 # Create executable

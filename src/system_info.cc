@@ -1,134 +1,51 @@
 #include "system_info.h"
-#include <fstream>
-#include <sstream>
-#include <cstring>
-#include <unistd.h>
-#include <sys/utsname.h>
-#include <sys/sysinfo.h>
-#include <pwd.h>
+
+#include "info/user.h"
+#include "info/os.h"
+#include "info/cpu.h"
+#include "info/memory.h"
+#include "info/time.h"
+#include "info/environment.h"
+#include "info/network.h"
+#include "info/gfx.h"
+#include "info/package.h"
 
 namespace breadfetch {
 
-    std::string SystemInfo::GetHostname() {
-        char hostname[256];
-        if (gethostname(hostname, sizeof(hostname)) == 0) {
-            return std::string(hostname);
-        }
-        return "unknown";
-    }
+#define F(x) std::string SystemInfo::x()
 
-    std::string SystemInfo::GetUsername() {
-        struct passwd *pw = getpwuid(getuid());
-        if (pw) {
-            return std::string(pw->pw_name);
-        }
-        return "unknown";
-    }
+    F(GetUsername)     { return user::Name(); }
+    F(GetHostname)     { return user::Hostname(); }
+    F(GetLogin)        { return user::Login(); }
 
-    std::string SystemInfo::GetOS() {
-        std::ifstream osRelease("/etc/os-release");
-        std::string line;
-        std::string prettyName = "Linux";
+    F(GetOS)           { return os::PrettyName(); }
+    F(GetKernel)       { return os::Kernel(); }
+    F(GetArchitecture) { return os::Architecture(); }
+    F(GetChassis)      { return os::Chassis(); }
+    F(GetOSAge)        { return os::Age(); }
 
-        if (osRelease.is_open()) {
-            while (std::getline(osRelease, line)) {
-                if (line.find("PRETTY_NAME=") == 0) {
-                    prettyName = line.substr(13);
-                    // Remove quotes
-                    if (prettyName.front() == '"') prettyName.erase(0, 1);
-                    if (prettyName.back() == '"') prettyName.pop_back();
-                    break;
-                }
-            }
-            osRelease.close();
-        }
+    F(GetCPU)          { return cpu::Model(); }
+    F(GetGPU)          { return gfx::GPU(); }
+    F(GetMemory)       { return memory::Usage(); }
+    F(GetSwap)         { return memory::Swap(); }
 
-        return prettyName;
-    }
+    F(GetShell)        { return environment::Shell(); }
+    F(GetTerminal)     { return environment::Terminal(); }
+    F(GetTerminalFont) { return environment::TerminalFont(); }
+    F(GetSession)      { return environment::Session(); }
+    F(GetDisplay)      { return environment::Display(); }
+    F(GetColours)      { return environment::Colours(); }
 
-    std::string SystemInfo::GetKernel() {
-        struct utsname buffer;
-        if (uname(&buffer) == 0) {
-            return std::string(buffer.release);
-        }
-        return "unknown";
-    }
+    F(GetInterface)    { return network::Interface(); }
+    F(GetLocalIP)      { return network::LocalIP(); }
 
-    std::string SystemInfo::GetUptime() {
-        struct sysinfo info;
-        if (sysinfo(&info) == 0) {
-            long uptime = info.uptime;
-            int days = uptime / 86400;
-            int hours = (uptime % 86400) / 3600;
-            int minutes = (uptime % 3600) / 60;
+    F(GetPackages)     { return package::Count(); }
+    F(GetGit)          { return "installed"; }
 
-            std::stringstream ss;
-            if (days > 0) {
-                ss << days << "d ";
-            }
-            if (hours > 0 || days > 0) {
-                ss << hours << "h ";
-            }
-            ss << minutes << "m";
+    F(GetUptime)       { return time::Uptime(); }
+    F(GetDate)         { return time::Date(); }
+    F(GetTime)         { return time::Clock(); }
 
-            return ss.str();
-        }
-        return "unknown";
-    }
+#undef F
 
-    std::string SystemInfo::GetShell() {
-        const char* shell = getenv("SHELL");
-        if (shell) {
-            std::string shellPath(shell);
-            size_t pos = shellPath.find_last_of('/');
-            if (pos != std::string::npos) {
-                return shellPath.substr(pos + 1);
-            }
-            return shellPath;
-        }
-        return "unknown";
-    }
-
-    std::string SystemInfo::GetCPU() {
-        std::ifstream cpuinfo("/proc/cpuinfo");
-        std::string line;
-        std::string cpuModel = "unknown";
-
-        if (cpuinfo.is_open()) {
-            while (std::getline(cpuinfo, line)) {
-                if (line.find("model name") == 0) {
-                    size_t pos = line.find(':');
-                    if (pos != std::string::npos) {
-                        cpuModel = line.substr(pos + 2);
-                        break;
-                    }
-                }
-            }
-            cpuinfo.close();
-        }
-
-        return cpuModel;
-    }
-
-    std::string SystemInfo::GetMemory() {
-        struct sysinfo info;
-        if (sysinfo(&info) == 0) {
-            unsigned long totalMB = info.totalram / 1024 / 1024;
-            unsigned long usedMB = (info.totalram - info.freeram - info.bufferram) / 1024 / 1024;
-
-            std::stringstream ss;
-            ss << usedMB << "MB / " << totalMB << "MB";
-            return ss.str();
-        }
-        return "unknown";
-    }
-
-    std::string SystemInfo::GetArchitecture() {
-        struct utsname buffer;
-        if (uname(&buffer) == 0) {
-            return std::string(buffer.machine);
-        }
-        return "unknown";
-    }
-
-} // namespace breadfetch
+}

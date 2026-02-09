@@ -19,7 +19,6 @@ namespace breadfetch {
             static std::string GetGPU ( );
             static std::string GetMemory ( );
             static std::string GetSwap ( );
-            static std::string GetDisk ( );
 
             static std::string GetShell ( );
             static std::string GetTerminal ( );
