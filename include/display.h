@@ -1,14 +1,14 @@
 #pragma once
-#define DISPLAY_HEADER
 
 #include <string>
+#include "config.h"
 
 namespace breadfetch {
     class Display {
     public:
-        static void PrintBanner ( );
-        static void PrintInfo (const std::string& label, const std::string& value);
-        static void PrintSeparator ( );
+        static void PrintBanner (const Config& config);
+        static void PrintInfo (const std::string& label, const std::string& value, const Config& config);
+        static void PrintSeparator (const Config& config);
 
     private:
         static const char* RESET;
