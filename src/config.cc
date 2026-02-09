@@ -85,10 +85,10 @@ bool Config::LoadFromFile (const std::string& filepath) {
 }
 
 void loadColours (Config* cfg, const toml::value& config) {
-    if (!config.contains("colors")) {
+    if (!config.contains("colours")) {
         return;
     }
-    const auto& t = toml::find(config, "colors");
+    const auto& t = toml::find(config, "colours");
 
     if (t.contains("label")) {
         cfg->colours.label     = toml::find<std::string>(t, "label");
@@ -138,8 +138,8 @@ void loadAsciiArt (Config* cfg, const toml::value& config) {
     }
     const auto& t = toml::find(config, "ascii");
 
-    if (t.contains("color")) {
-        cfg->asciiArt.color = toml::find<std::string>(t, "color");
+    if (t.contains("colour")) {
+        cfg->asciiArt.colour = toml::find<std::string>(t, "colour");
     }
 
     if (t.contains("art")) {
@@ -201,7 +201,7 @@ bool Config::CreateDefaultConfig (const std::string& filepath) {
 
     file << R"(# breadfetch config
 
-[colors]
+[colours]
 label = "\u001b[36m"
 separator = "\u001b[34m"
 banner = "\u001b[33m"
@@ -243,7 +243,7 @@ separator_width = 45
 separator_char = "─"
 
 [ascii]
-color = "\u001b[33m"
+colour = "\u001b[33m"
 art = [
   " ____                     _ _____    _       _",
   "| __ ) _ __ ___  __ _  __| |  ___|__| |_ ___| |__",

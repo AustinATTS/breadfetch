@@ -5,7 +5,7 @@
 
 namespace breadfetch::memory {
 
-    static double UnitDivisor (const std::string& unit, std::string& label) {
+    double UnitDivisor (const std::string& unit, std::string& label) {
         if (unit == "B") {
             return 1.0;
         }
@@ -27,7 +27,7 @@ namespace breadfetch::memory {
         return 1024.0 * 1024.0;
     }
 
-    static std::string FormatUsage (unsigned long long usedBytes, unsigned long long totalBytes, const std::string& unit) {
+    std::string FormatUsage (unsigned long long usedBytes, unsigned long long totalBytes, const std::string& unit) {
         std::string label = unit;
         double divisor = UnitDivisor(unit, label);
 
