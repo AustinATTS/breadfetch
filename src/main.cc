@@ -12,11 +12,9 @@ int main(int argument_count, char* argument_vector[]) {
     using breadfetch::SystemInfo;
     using breadfetch::Config;
 
-    // Load configuration
     Config config;
     std::string configPath = Config::GetDefaultConfigPath();
 
-    // Create default config if missing
     std::ifstream testFile(configPath);
     if (!testFile.good()) {
         std::cout << "Creating default config at: " << configPath << std::endl;
@@ -28,11 +26,9 @@ int main(int argument_count, char* argument_vector[]) {
         std::cerr << "Warning: Failed to load config, using defaults" << std::endl;
     }
 
-    // Header
     Display::PrintBanner(config);
     Display::PrintSeparator(config);
 
-    // ── Identity / Session ─────────────────────────────
     if (config.IsFieldEnabled("userhost")) {
         std::string userHost =
             SystemInfo::GetUsername() + "@" + SystemInfo::GetHostname();
@@ -67,7 +63,6 @@ int main(int argument_count, char* argument_vector[]) {
 
     Display::PrintSeparator(config);
 
-    // ── Operating System ───────────────────────────────
     if (config.IsFieldEnabled("os")) {
         const auto& dc = config.GetDisplayConfig("os");
         Display::PrintInfo(dc.label, SystemInfo::GetOS(), config);
@@ -95,7 +90,6 @@ int main(int argument_count, char* argument_vector[]) {
 
     Display::PrintSeparator(config);
 
-    // ── Hardware ───────────────────────────────────────
     if (config.IsFieldEnabled("cpu")) {
         const auto& dc = config.GetDisplayConfig("cpu");
         Display::PrintInfo(dc.label, SystemInfo::GetCPU(), config);
@@ -126,7 +120,6 @@ int main(int argument_count, char* argument_vector[]) {
 
     Display::PrintSeparator(config);
 
-    // ── Environment / Software ─────────────────────────
     if (config.IsFieldEnabled("packages")) {
         const auto& dc = config.GetDisplayConfig("packages");
         Display::PrintInfo(dc.label, SystemInfo::GetPackages(), config);
@@ -144,7 +137,6 @@ int main(int argument_count, char* argument_vector[]) {
 
     Display::PrintSeparator(config);
 
-    // ── Network ────────────────────────────────────────
     if (config.IsFieldEnabled("interface")) {
         const auto& dc = config.GetDisplayConfig("interface");
         Display::PrintInfo(dc.label, SystemInfo::GetInterface(), config);
@@ -157,7 +149,6 @@ int main(int argument_count, char* argument_vector[]) {
 
     Display::PrintSeparator(config);
 
-    // ── Time ───────────────────────────────────────────
     if (config.IsFieldEnabled("uptime")) {
         const auto& dc = config.GetDisplayConfig("uptime");
         Display::PrintInfo(dc.label, SystemInfo::GetUptime(), config);
