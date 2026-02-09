@@ -2,27 +2,29 @@ CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I./include
 LDFLAGS  =
 
-TARGET   = breadfetch
-SRCDIR   = src
+TARGET = breadfetch
+SRCDIR = src
+INCDIR = include
 BUILDDIR = build
 
 # Find all .cc files recursively under src/
 SOURCES := $(shell find $(SRCDIR) -name '*.cc')
 
 # Map src/foo/bar.cc -> build/foo/bar.o
-OBJECTS := $(patsubst $(SRCDIR)/%.cc,$(BUILDDIR)/%.o,$(SOURCES))
+OBJECTS = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
 
-.PHONY: all clean install uninstall
+.PHONY: all clean install
 
-all: $(TARGET)
+all: $(BUILDDIR) $(TARGET)
+
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
 
 $(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
-# Ensure build directories exist before compiling
-$(BUILDDIR)/%.o: $(SRCDIR)/%.cc
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
 	rm -rf $(BUILDDIR) $(TARGET)
