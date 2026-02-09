@@ -12,40 +12,87 @@
 
 namespace breadfetch {
 
-#define F(x) std::string SystemInfo::x()
+    std::string SystemInfo::GetUsername ( ) {
+        return user::Name();
+    }
+    std::string SystemInfo::GetHostname ( ) {
+        return user::Hostname();
+    }
+    std::string SystemInfo::GetLogin ( ) {
+        return user::Login();
+    }
 
-    F(GetUsername)     { return user::Name(); }
-    F(GetHostname)     { return user::Hostname(); }
-    F(GetLogin)        { return user::Login(); }
+    std::string SystemInfo::GetOS ( ) {
+        return os::PrettyName();
+    }
+    std::string SystemInfo::GetKernel ( ) {
+        return os::Kernel();
+    }
+    std::string SystemInfo::GetArchitecture ( ) {
+        return os::Architecture();
+    }
+    std::string SystemInfo::GetChassis ( ) {
+        return os::Chassis();
+    }
+    std::string SystemInfo::GetOSAge ( ) {
+        return os::Age();
+    }
 
-    F(GetOS)           { return os::PrettyName(); }
-    F(GetKernel)       { return os::Kernel(); }
-    F(GetArchitecture) { return os::Architecture(); }
-    F(GetChassis)      { return os::Chassis(); }
-    F(GetOSAge)        { return os::Age(); }
+    std::string SystemInfo::GetCPU ( ) {
+        return cpu::Model();
+    }
+    std::string SystemInfo::GetGPU ( ) {
+        return gfx::GPU();
+    }
+    std::string SystemInfo::GetMemory (const std::string& unit) {
+        return memory::Usage(unit);
+    }
+    std::string SystemInfo::GetSwap (const std::string& unit) {
+        return memory::Swap(unit);
+    }
 
-    F(GetCPU)          { return cpu::Model(); }
-    F(GetGPU)          { return gfx::GPU(); }
-    F(GetMemory)       { return memory::Usage(); }
-    F(GetSwap)         { return memory::Swap(); }
+    std::string SystemInfo::GetShell ( ) {
+        return environment::Shell();
+    }
+    std::string SystemInfo::GetTerminal ( ) {
+        return environment::Terminal();
+    }
+    std::string SystemInfo::GetTerminalFont ( ) {
+        return environment::TerminalFont();
+    }
+    std::string SystemInfo::GetSession ( ) {
+        return environment::Session();
+    }
+    std::string SystemInfo::GetDisplay ( ) {
+        return environment::Display();
+    }
+    std::string SystemInfo::GetColours ( ) {
+        return environment::Colours();
+    }
 
-    F(GetShell)        { return environment::Shell(); }
-    F(GetTerminal)     { return environment::Terminal(); }
-    F(GetTerminalFont) { return environment::TerminalFont(); }
-    F(GetSession)      { return environment::Session(); }
-    F(GetDisplay)      { return environment::Display(); }
-    F(GetColours)      { return environment::Colours(); }
+    std::string SystemInfo::GetInterface ( ) {
+        return network::Interface();
+    }
+    std::string SystemInfo::GetLocalIP ( ) {
+        return network::LocalIP();
+    }
 
-    F(GetInterface)    { return network::Interface(); }
-    F(GetLocalIP)      { return network::LocalIP(); }
+    std::string SystemInfo::GetPackages ( ) {
+        return package::Count();
+    }
+    std::string SystemInfo::GetGit ( ) {
+        return "installed";
+    }
 
-    F(GetPackages)     { return package::Count(); }
-    F(GetGit)          { return "installed"; }
+    std::string SystemInfo::GetUptime ( ) {
+        return time::Uptime();
+    }
+    std::string SystemInfo::GetDate ( ) {
+        return time::Date();
+    }
+    std::string SystemInfo::GetTime ( ) {
+        return time::Clock();
+    }
 
-    F(GetUptime)       { return time::Uptime(); }
-    F(GetDate)         { return time::Date(); }
-    F(GetTime)         { return time::Clock(); }
 
-#undef F
-
-}
+} // namespace::breadfetch
